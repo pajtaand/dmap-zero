@@ -1,0 +1,720 @@
+openapi: 3.0.3
+info:
+  title: Agent Controller API
+  version: 1.0.0
+  description: REST API agent controller management.
+
+servers:
+  - url: /api/v1
+
+security:
+  - BearerAuth: []
+
+paths:
+  /agent:
+    post:
+      summary: Create a new agent
+      operationId: createAgent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAgentRequest'
+      responses:
+        '200':
+          description: Agent created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAgentResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    get:
+      summary: List all agents
+      operationId: listAgents
+      responses:
+        '200':
+          description: List of agents retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListAgentsResponse'
+
+  /agent/{agentId}:
+    parameters:
+      - name: agentId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Unique identifier of the agent
+
+    get:
+      summary: Get agent by ID
+      operationId: getAgent
+      responses:
+        '200':
+          description: Agent details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '404':
+          description: Agent not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    patch:
+      summary: Update agent
+      operationId: updateAgent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAgentRequest'
+      responses:
+        '200':
+          description: Agent updated successfully
+        '404':
+          description: Agent not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Delete agent
+      operationId: deleteAgent
+      responses:
+        '200':
+          description: Agent deleted successfully
+        '404':
+          description: Agent not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /agent/{agentId}/enrollment:
+    parameters:
+      - name: agentId
+        in: path
+        required: true
+        schema:
+          type: string
+    
+    post:
+      summary: Create enrollment for an agent
+      operationId: createEnrollment
+      responses:
+        '200':
+          description: Enrollment created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrollmentResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Agent not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+    get:
+      summary: Get enrollment details
+      operationId: getEnrollment
+      responses:
+        '200':
+          description: Enrollment details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrollmentResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Enrollment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+    delete:
+      summary: Delete enrollment
+      operationId: deleteEnrollment
+      responses:
+        '200':
+          description: Enrollment deleted successfully
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Agent not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /module:
+    post:
+      summary: Create a new module
+      operationId: createModule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateModuleRequest'
+      responses:
+        '200':
+          description: Module created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateModuleResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+    get:
+      summary: List all modules
+      operationId: listModules
+      responses:
+        '200':
+          description: List of modules retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListModulesResponse'
+
+  /module/{moduleId}:
+    parameters:
+      - name: moduleId
+        in: path
+        required: true
+        schema:
+          type: string
+    
+    get:
+      summary: Get module by ID
+      operationId: getModule
+      responses:
+        '200':
+          description: Module retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Module'
+        '404':
+          description: Module not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+    patch:
+      summary: Update module
+      operationId: updateModule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateModuleRequest'
+      responses:
+        '200':
+          description: Module updated successfully
+        '404':
+          description: Module not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+    delete:
+      summary: Delete module
+      operationId: deleteModule
+      responses:
+        '200':
+          description: Module deleted successfully
+        '404':
+          description: Module not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /module/{moduleId}/start:
+    parameters:
+      - name: moduleId
+        in: path
+        required: true
+        schema:
+          type: string
+    
+    post:
+      summary: Start module
+      operationId: startModule
+      responses:
+        '200':
+          description: Module started successfully
+        '404':
+          description: Module not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /module/{moduleId}/stop:
+    parameters:
+      - name: moduleId
+        in: path
+        required: true
+        schema:
+          type: string
+    
+    post:
+      summary: Stop module
+      operationId: stopModule
+      responses:
+        '200':
+          description: Module stopped successfully
+        '404':
+          description: Module not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /module/{moduleId}/send:
+    parameters:
+      - name: moduleId
+        in: path
+        required: true
+        schema:
+          type: string
+    
+    post:
+      summary: Send data to module
+      operationId: sendData
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendDataRequest'
+      responses:
+        '200':
+          description: Data sent successfully
+        '404':
+          description: Module not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /image:
+    post:
+      summary: Upload a new image
+      operationId: uploadImage
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Image file to upload
+                name:
+                  type: string
+                  description: Name of the image
+              required:
+                - file
+      responses:
+        '200':
+          description: Image uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadImageResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    get:
+      summary: List all images
+      operationId: listImages
+      responses:
+        '200':
+          description: List of images retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListImagesResponse'
+
+  /image/{imageId}:
+    parameters:
+      - name: imageId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the image
+
+    get:
+      summary: Get image details by ID
+      operationId: getImage
+      responses:
+        '200':
+          description: Image details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetImageResponse'
+        '404':
+          description: Image not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Delete an image
+      operationId: deleteImage
+      responses:
+        '200':
+          description: Image deleted successfully
+        '404':
+          description: Image not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /webhook:
+    get:
+      summary: List all webhooks
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Webhook'
+        '500':
+          description: Internal server error
+
+    post:
+      summary: Register a new webhook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookRegistrationRequest'
+      responses:
+        '201':
+          description: Webhook registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookRegistrationResponse'
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+
+    delete:
+      summary: Delete a webhook
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Webhook deleted successfully
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+
+components:
+  schemas:
+    WebhookRegistrationRequest:
+      type: object
+      properties:
+        moduleID:
+          type: string
+        url:
+          type: string
+    
+    WebhookRegistrationResponse:
+      type: object
+      properties:
+        ID:
+          type: string
+
+    Webhook:
+      type: object
+      properties:
+        id:
+          type: string
+        moduleID:
+          type: string
+        url:
+          type: string
+
+    WebhookData:
+      type: object
+      properties:
+        moduleID:
+          type: string
+        blob:
+          type: string
+          format: binary
+          description: Binary data encoded as base64
+        Receiver:
+          type: string
+
+    Configuration:
+      type: object
+      additionalProperties:
+        type: string
+      description: Key-value pairs for agent configuration
+
+    Agent:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        configuration:
+          $ref: '#/components/schemas/Configuration'
+        isEnrolled:
+          type: boolean
+        isOnline:
+          type: boolean
+        presentImages:
+          type: array
+          items:
+            type: string
+        presentModules:
+          type: array
+          items:
+            type: string
+
+    CreateAgentRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        configuration:
+          $ref: '#/components/schemas/Configuration'
+
+    CreateAgentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+
+    UpdateAgentRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        configuration:
+          $ref: '#/components/schemas/Configuration'
+
+    ListAgentsResponse:
+      type: object
+      properties:
+        agents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Agent'
+
+    EnrollmentResponse:
+      type: object
+      properties:
+        jwt:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+          
+    CreateEnrollmentRequest:
+      type: object
+      properties:
+        id:
+          type: string
+
+    Module:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        image:
+          type: string
+        configuration:
+          type: object
+          additionalProperties:
+            type: string
+        isRunning:
+          type: boolean
+    
+    CreateModuleRequest:
+      type: object
+      required:
+        - name
+        - image
+      properties:
+        name:
+          type: string
+        image:
+          type: string
+        configuration:
+          type: object
+          additionalProperties:
+            type: string
+    
+    CreateModuleResponse:
+      type: object
+      properties:
+        id:
+          type: string
+    
+    UpdateModuleRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        image:
+          type: string
+        configuration:
+          type: object
+          additionalProperties:
+            type: string
+    
+    ListModulesResponse:
+      type: object
+      properties:
+        modules:
+          type: array
+          items:
+            $ref: '#/components/schemas/Module'
+    
+    SendDataRequest:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: string
+          format: binary
+
+    UploadImageResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the uploaded image
+
+    GetImageResponse:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the image
+        size:
+          type: integer
+          description: Size of the image in bytes
+
+    ListImagesResponseImage:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the image
+        name:
+          type: string
+          description: Name of the image
+        size:
+          type: integer
+          description: Size of the image in bytes
+
+    ListImagesResponse:
+      type: object
+      properties:
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListImagesResponseImage'
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

@@ -1,0 +1,139 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets:
+        - 'localhost:9090'
+
+  - job_name: main_node_exporter
+    static_configs:
+      - targets:
+        - 'node-exporter:9100'
+
+  - job_name: ziti
+    scheme: https
+    metrics_path: /metrics
+    honor_labels: true
+    honor_timestamps: true
+    tls_config:
+      # don't require authentication, the API is isolated in docker network
+      insecure_skip_verify: true
+    static_configs:
+      - targets:
+        - 'ziti-controller:2112'
+
+  - job_name: agent_controller
+    scheme: https
+    metrics_path: '/metrics'
+    tls_config:
+      # don't require authentication, the API is isolated in docker network
+      insecure_skip_verify: true
+    static_configs:
+      - targets:
+        - 'agent-controller:9090'
+
+  - job_name: node_exporter
+    static_configs:
+      - targets:
+         # until dynamical node discovery is implemented, targets need to be hard-coded
+         - 'ziti-tunnel-controller:1001'
+         - 'ziti-tunnel-controller:1002'
+         - 'ziti-tunnel-controller:1003'
+         - 'ziti-tunnel-controller:1004'
+         - 'ziti-tunnel-controller:1005'
+         - 'ziti-tunnel-controller:1006'
+         - 'ziti-tunnel-controller:1007'
+         - 'ziti-tunnel-controller:1008'
+         - 'ziti-tunnel-controller:1009'
+         - 'ziti-tunnel-controller:1010'
+         - 'ziti-tunnel-controller:1011'
+         - 'ziti-tunnel-controller:1012'
+         - 'ziti-tunnel-controller:1013'
+         - 'ziti-tunnel-controller:1014'
+         - 'ziti-tunnel-controller:1015'
+         - 'ziti-tunnel-controller:1016'
+         - 'ziti-tunnel-controller:1017'
+         - 'ziti-tunnel-controller:1018'
+         - 'ziti-tunnel-controller:1019'
+         - 'ziti-tunnel-controller:1020'
+         - 'ziti-tunnel-controller:1021'
+         - 'ziti-tunnel-controller:1022'
+         - 'ziti-tunnel-controller:1023'
+         - 'ziti-tunnel-controller:1024'
+         - 'ziti-tunnel-controller:1025'
+         - 'ziti-tunnel-controller:1026'
+         - 'ziti-tunnel-controller:1027'
+         - 'ziti-tunnel-controller:1028'
+         - 'ziti-tunnel-controller:1029'
+         - 'ziti-tunnel-controller:1030'
+         - 'ziti-tunnel-controller:1031'
+         - 'ziti-tunnel-controller:1032'
+         - 'ziti-tunnel-controller:1033'
+         - 'ziti-tunnel-controller:1034'
+         - 'ziti-tunnel-controller:1035'
+         - 'ziti-tunnel-controller:1036'
+         - 'ziti-tunnel-controller:1037'
+         - 'ziti-tunnel-controller:1038'
+         - 'ziti-tunnel-controller:1039'
+         - 'ziti-tunnel-controller:1040'
+         - 'ziti-tunnel-controller:1041'
+         - 'ziti-tunnel-controller:1042'
+         - 'ziti-tunnel-controller:1043'
+         - 'ziti-tunnel-controller:1044'
+         - 'ziti-tunnel-controller:1045'
+         - 'ziti-tunnel-controller:1046'
+         - 'ziti-tunnel-controller:1047'
+         - 'ziti-tunnel-controller:1048'
+         - 'ziti-tunnel-controller:1049'
+         - 'ziti-tunnel-controller:1050'
+         - 'ziti-tunnel-controller:1051'
+         - 'ziti-tunnel-controller:1052'
+         - 'ziti-tunnel-controller:1053'
+         - 'ziti-tunnel-controller:1054'
+         - 'ziti-tunnel-controller:1055'
+         - 'ziti-tunnel-controller:1056'
+         - 'ziti-tunnel-controller:1057'
+         - 'ziti-tunnel-controller:1058'
+         - 'ziti-tunnel-controller:1059'
+         - 'ziti-tunnel-controller:1060'
+         - 'ziti-tunnel-controller:1061'
+         - 'ziti-tunnel-controller:1062'
+         - 'ziti-tunnel-controller:1063'
+         - 'ziti-tunnel-controller:1064'
+         - 'ziti-tunnel-controller:1065'
+         - 'ziti-tunnel-controller:1066'
+         - 'ziti-tunnel-controller:1067'
+         - 'ziti-tunnel-controller:1068'
+         - 'ziti-tunnel-controller:1069'
+         - 'ziti-tunnel-controller:1070'
+         - 'ziti-tunnel-controller:1071'
+         - 'ziti-tunnel-controller:1072'
+         - 'ziti-tunnel-controller:1073'
+         - 'ziti-tunnel-controller:1074'
+         - 'ziti-tunnel-controller:1075'
+         - 'ziti-tunnel-controller:1076'
+         - 'ziti-tunnel-controller:1077'
+         - 'ziti-tunnel-controller:1078'
+         - 'ziti-tunnel-controller:1079'
+         - 'ziti-tunnel-controller:1080'
+         - 'ziti-tunnel-controller:1081'
+         - 'ziti-tunnel-controller:1082'
+         - 'ziti-tunnel-controller:1083'
+         - 'ziti-tunnel-controller:1084'
+         - 'ziti-tunnel-controller:1085'
+         - 'ziti-tunnel-controller:1086'
+         - 'ziti-tunnel-controller:1087'
+         - 'ziti-tunnel-controller:1088'
+         - 'ziti-tunnel-controller:1089'
+         - 'ziti-tunnel-controller:1090'
+         - 'ziti-tunnel-controller:1091'
+         - 'ziti-tunnel-controller:1092'
+         - 'ziti-tunnel-controller:1093'
+         - 'ziti-tunnel-controller:1094'
+         - 'ziti-tunnel-controller:1095'
+         - 'ziti-tunnel-controller:1096'
+         - 'ziti-tunnel-controller:1097'
+         - 'ziti-tunnel-controller:1098'
+         - 'ziti-tunnel-controller:1099'

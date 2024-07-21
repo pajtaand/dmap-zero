@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "common.proto";
+
+package controller;
+
+option go_package = "github.com/andreepyro/dmap-zero/internal/proto";
+
+service SetupService {
+    rpc ConfigurationRequest (google.protobuf.Empty) returns (common.AgentConfiguration) {}
+    rpc ImageRequest (google.protobuf.Empty) returns (stream common.ImageStreamData) {}
+    rpc ModuleRequest (google.protobuf.Empty) returns (common.ModuleConfigurations) {}
+}
+
+service PhonehomeService {
+    rpc Phonehome (PhonehomeData) returns (google.protobuf.Empty) {}
+}
+
+service ReceiveService {
+    rpc PushData (ModuleControllerData) returns (google.protobuf.Empty) {}
+}
+
+message PhonehomeData {
+    map<string, common.ImageInfo> images = 1;
+    map<string, common.ModuleInfo> modules = 2;
+}
+
+message ModuleControllerData {
+    string receiver = 1;    // user defined receiver
+    common.ModuleIdentifier sender = 2; 
+    bytes data = 3;
+}

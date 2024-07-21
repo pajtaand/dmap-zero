@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package common;
+
+option go_package = "github.com/andreepyro/dmap-zero/internal/proto";
+
+message AgentConfiguration {
+    map<string, string> env = 1;
+}
+
+message ResourceExistResponse {
+    bool is_present = 1;
+}
+
+message ImageIdentifier {
+    string id = 1;
+}
+
+message ImageInfo {
+    string id = 2;
+    string name = 3;
+    int64 size = 4;
+}
+
+message ImageStreamData {
+    string id = 1;
+    string name = 2;
+    bytes content = 3;
+}
+
+message ModuleIdentifier {
+    string id = 1;
+}
+
+message ModuleConfiguration {
+    common.ModuleIdentifier module = 1;
+    common.ImageIdentifier image = 2;
+    map<string, string> env = 3;
+}
+
+message ModuleConfigurations {
+    repeated ModuleConfiguration configs = 1;
+}
+
+message ModuleInfo {
+    string id = 2;
+    ModuleStatus status = 3;
+}
+
+enum ModuleStatus {
+    STARTING = 0;
+    HEALTHY = 1;
+    UNHEALTHY = 2;
+    UNKNOWN = -1;
+}

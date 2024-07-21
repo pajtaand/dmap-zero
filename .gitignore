@@ -1,0 +1,6 @@
+# IDE
+.idea
+
+# project specific
+build
+deployment

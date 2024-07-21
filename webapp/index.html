@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="/src/css" type="text/css" rel="stylesheet">
+    <script src="/src/js"></script>
+
+    <title>DMap-Zero</title>
+    <link rel="icon" type="image/x-icon" href="/src/favicon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div id="content">
+    <!-- templates -->
+    <div id="templates">
+        <div id="template-item-agent" class="horizontal-container">
+            <div class="info-item">
+                <div class="text-wrapper">
+                    <div class="text-horizontal"></div>
+                    <div class="text-horizontal-small"></div>
+                </div>
+                <button class="button-revoke" onclick="buttonRevokeAgent(this);return false;">Revoke</button>
+                <button class="button-enrollment" onclick="buttonShowAgentEnrollment(this);return false;">Enroll</button>
+                <button class="button-edit" onclick="buttonEditAgent(this);return false;">Edit</button>
+                <button class="button-delete" onclick="buttonDeleteAgent(this);return false;">Delete</button>
+            </div>
+        </div>
+        <div id="template-item-image" class="horizontal-container">
+            <div class="info-item">
+                <div class="text-wrapper">
+                    <div class="text-horizontal"></div>
+                    <div class="text-horizontal-small"></div>
+                </div>
+                <button class="button-edit" onclick="buttonEditImage(this);return false;">Edit</button>
+                <button class="button-delete" onclick="buttonDeleteImage(this);return false;">Delete</button>
+            </div>
+        </div>
+        <div id="template-item-module" class="horizontal-container">
+            <div class="info-item">
+                <div class="text-wrapper">
+                    <div class="text-horizontal"></div>
+                    <div class="text-horizontal-small"></div>
+                </div>
+                <button class="button-start" onclick="buttonStartModule(this);return false;">Start</button>
+                <button class="button-stop" onclick="buttonStopModule(this);return false;">Stop</button>
+                <button class="button-edit" onclick="buttonEditModule(this);return false;">Edit</button>
+                <button class="button-delete" onclick="buttonDeleteModule(this);return false;">Delete</button>
+            </div>
+        </div>
+    </div>
+    <!-- login view -->
+    <div id="welcome-view">
+        <img id="image-project-logo" src="/src/icon" alt="DMap-Zero logo" width="170" height="170">
+        <div id="login-container">
+            <form id="form-login" class="window" action="#" onsubmit="formLogin(this);return false;">
+                <input id="input-login-username" type="text" size="10" required placeholder="username">
+                <input id="input-login-password" type="password" required size="10" minlength="8" placeholder="password">
+                <button id="button-login" type="submit" name="save" value="Save">Login</button>
+            </form>
+        </div>
+        <p id="text-project-name">DMap-Zero</p>
+        <p id="text-project-description">Distributed Multi-Agent Platform for Zero-Trust Security</p>
+        <div id="text-authors">Created by Andrej Pajtaš in 2024</div>
+    </div>
+    <!-- tabs -->
+    <div id="user-view">
+        <div id="sidebar">
+            <a id="sidebar-tab-images" href="#" onclick="showTab('images'); return false;">Images</a>
+            <a id="sidebar-tab-agents" href="#" onclick="showTab('agents'); return false;" class="active">Agents</a>
+            <a id="sidebar-tab-modules" href="#" onclick="showTab('modules'); return false;">Modules</a>
+        </div>
+        <button id="jump-to-start" onclick="jumpToStart()">Top</button>
+
+        <div id="tab-agents" class="page">
+            <div class="full-container">
+                <div class="horizontal-container">
+                    <div class="info-bar">
+                        <div class="text-wrapper">
+                            <div id="text-agents-info" class="text-horizontal">Agents (5)</div>
+                            <div id="text-agents-info-2" class="text-horizontal-small">Online (0), Offline (3)</div>
+                        </div>
+                        <button class="button-add" onclick="showAddAgentForm();return false;">Add agent</button>
+                    </div>
+                </div>
+                <span id="list-agents"></span>
+            </div>
+            <div id="add-agent-popup" class="popup-container">
+                <span onclick="hideWindow('add-agent-popup');" class="close-button" title="Close">&times;</span>
+                <form id="form-add-agent" class="window" action="#" onsubmit="formAddAgent(this);return false;">
+                    <p>Add a new agent</p>
+                    <div>
+                        <input id="form-add-agent-input-name" type="text" required size="10" placeholder="Agent name">
+                    </div>
+                    <textarea id="form-add-agent-input-config" placeholder="KEY_NAME=VALUE&#10;..."></textarea>
+                    <button id="form-add-agent-button-confirm" type="submit" name="save" value="Save">Confirm</button>
+                </form>
+            </div>
+            <div id="edit-agent-popup" class="popup-container">
+                <span onclick="hideWindow('edit-agent-popup');" class="close-button" title="Close">&times;</span>
+                <form id="form-edit-agent" class="window" action="#" onsubmit="formEditAgent(this);return false;">
+                    <p>Update agent</p>
+                    <div>
+                        <input id="form-edit-agent-input-name" type="text" required size="10" placeholder="Agent name">
+                    </div>
+                    <textarea id="form-edit-agent-input-config" placeholder="KEY_NAME=VALUE&#10;..."></textarea>
+                    <button id="form-edit-agent-button-confirm" type="submit" name="save" value="Save">Confirm</button>
+                </form>
+            </div>
+            <div id="enroll-agent-popup" class="popup-container">
+                <span onclick="hideWindow('enroll-agent-popup');" class="close-button" title="Close">&times;</span>
+                <div class="window">
+                    <p>Agent Enrollment</p>
+                    <textarea id="agent-enrollment-token" readonly></textarea>
+                    <button id="button-copy-agent-enrollment-token" onclick="copyInnerHTML('agent-enrollment-token');">Copy token</button>
+                    <button id="button-enroll-agent" onclick="buttonEnrollAgent(this);">Generate token</button>
+                    <button id="button-enroll-agent-delete" class="delete" onclick="buttonEnrollAgentDelete(this);">Invalidate token</button>
+                    <div id="agent-enrollment-token-expire-time" class="text-horizontal-small text-center">expire time here</div>
+                </div>
+            </div>
+        </div>
+        <div id="tab-images" class="page">
+            <div class="full-container">
+                <div class="horizontal-container">
+                    <div class="info-bar">
+                        <div class="text-wrapper">
+                            <div id="text-images-info" class="text-horizontal">Images (5)</div>
+                            <div id="text-images-info-2" class="text-horizontal-small">Online (0), Offline (3)</div>
+                        </div>
+                        <button class="button-add" onclick="showUploadImageForm();return false;">Upload</button>
+                    </div>
+                </div>
+                <span id="list-images"></span>
+            </div>
+            <div id="add-image-popup" class="popup-container">
+                <span onclick="hideWindow('add-image-popup');" class="close-button" title="Close">&times;</span>
+                <form id="form-add-image" class="window" action="#" onsubmit="formUploadImage(this);return false;">
+                    <p>Upload a new image</p>
+                    <div>
+                        <input id="form-add-image-input-name" type="text" required size="10" placeholder="Image name">
+                        <div class="button-upload">
+                            <label for="form-add-image-input-file">Upload file</label>
+                            <input id="form-add-image-input-file" type="file" onchange="onFileUpload(this);">
+                        </div>
+                    </div>
+                    <button id="form-add-image-button-confirm" type="submit" name="save" value="Save">Confirm</button>
+                </form>
+            </div>
+        </div>
+        <div id="tab-modules" class="page">
+            <div class="full-container">
+                <div class="horizontal-container">
+                    <div class="info-bar">
+                        <div class="text-wrapper">
+                            <div id="text-modules-info" class="text-horizontal">Modules (5)</div>
+                            <div id="text-modules-info-2" class="text-horizontal-small">Online (0), Offline (3)</div>
+                        </div>
+                        <button class="button-add" onclick="showSetupModuleForm('add-module-popup');return false;">Set up</button>
+                    </div>
+                </div>
+                <span id="list-modules"></span>
+            </div>
+            <div id="add-module-popup" class="popup-container">
+                <span onclick="hideWindow('add-module-popup');" class="close-button" title="Close">&times;</span>
+                <form id="form-add-module" class="window" action="#" onsubmit="formSetupModule(this);return false;">
+                    <p>Set up a new module</p>
+                    <div>
+                        <input id="form-add-module-input-name" type="text" required size="10" placeholder="Module name">
+                        <select id="form-add-module-input-image" onChange="checkValidImage(this);">
+                            <option value="" disabled selected>Select image</option>
+                        </select>
+                    </div>
+                    <textarea id="form-add-module-input-config" placeholder="KEY_NAME=VALUE&#10;..."></textarea>
+                    <button id="form-add-module-button-config" type="submit" name="save" value="Save">Confirm</button>
+                </form>
+            </div>
+            <div id="edit-module-popup" class="popup-container">
+                <span onclick="hideWindow('edit-module-popup');" class="close-button" title="Close">&times;</span>
+                <form id="form-edit-module" class="window" action="#" onsubmit="formEditModule(this);return false;">
+                    <p>Update module</p>
+                    <div>
+                        <input id="form-edit-module-input-name" type="text" required size="10" placeholder="Module name">
+                        <select id="form-edit-module-input-image" onChange="checkValidImage(this);">
+                            <option value="" disabled selected>Select image</option>
+                        </select>
+                    </div>
+                    <textarea id="form-edit-module-input-config" placeholder="KEY_NAME=VALUE&#10;..."></textarea>
+                    <button id="form-edit-module-button-config" type="submit" name="save" value="Save">Confirm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- loading view -->
+    <div id="loading-view">
+        <img id="loading-logo" src="/src/icon" alt="DMap-Zero logo" width="170" height="170">
+        <p id="loading-text-title">DMap-Zero</p>
+        <p id="loading-text-description">The page is loading...</p>
+    </div>
+</div>
+<div id="pop-message"></div>
+</body>
+</html>

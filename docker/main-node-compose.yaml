@@ -1,0 +1,340 @@
+services:
+
+  # copy config file into the ziti-setup volume, set correct ADVERTISED_IP
+  ziti-controller-setup:
+    container_name: ziti-controller-setup
+    image: busybox
+    volumes:
+      - ../configs/openziti-config.yaml:/src/config.yml
+      - ziti-setup:/dst
+    command: sh -c "sed 's/ADVERTISED_IP/${ADVERTISED_IP}/g' /src/config.yml > /dst/config.yml"
+
+  ziti-controller:
+    container_name: ziti-controller
+    image: openziti/ziti-controller:1.1.11
+    ports:
+      - "1280:1280"
+    volumes:
+      - ziti-controller:/ziti-controller
+      - ziti-setup:/setup
+    environment:
+      - ZITI_CTRL_ADVERTISED_ADDRESS=${ADVERTISED_IP}
+      - ZITI_CTRL_ADVERTISED_PORT=1280
+      - ZITI_PWD=${OPENZITI_PASSWORD}
+      - ZITI_BOOTSTRAP=true
+      - ZITI_BOOTSTRAP_PKI=true
+      - ZITI_BOOTSTRAP_CONFIG=true
+      - ZITI_BOOTSTRAP_DATABASE=true
+      - ZITI_AUTO_RENEW_CERTS=true
+    entrypoint: sh -c 'source /bootstrap.bash; bootstrap config.yml; mv /setup/config.yml /ziti-controller/config.yml; exec ziti controller run config.yml'
+    networks:
+      - net_ziti_controller
+    restart: unless-stopped
+    healthcheck:
+      test: ziti agent stats
+      interval: 3s
+      retries: 5
+      start_period: 15s
+      timeout: 3s
+    depends_on:
+      ziti-controller-setup:
+        condition: service_completed_successfully
+
+  ziti-router:
+    container_name: ziti-router
+    image: openziti/ziti-router:1.1.11
+    ports:
+      - "3022:3022"
+    volumes:
+      - edge-router:/ziti-router
+    environment:
+      - ZITI_ENROLL_TOKEN=${ROUTER_ENROLLMENT_JWT}
+      - ZITI_CTRL_ADVERTISED_ADDRESS=${ADVERTISED_IP}
+      - ZITI_CTRL_ADVERTISED_PORT=1280
+      - ZITI_ROUTER_ADVERTISED_ADDRESS=${ADVERTISED_IP}
+      - ZITI_ROUTER_PORT=3022
+      - ZITI_ROUTER_MODE=none
+      - ZITI_BOOTSTRAP=true
+      - ZITI_BOOTSTRAP_CONFIG=true
+      - ZITI_BOOTSTRAP_ENROLLMENT=true
+      - ZITI_AUTO_RENEW_CERTS=true
+      - ZITI_ROUTER_TYPE=edge
+    command: run config.yml
+    healthcheck:
+      test: ziti agent stats
+      interval: 3s
+      retries: 5
+      start_period: 15s
+      timeout: 3s
+    depends_on:
+      ziti-controller:
+        condition: service_healthy
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:11.2.1
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ../configs/grafana-datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
+      - ../configs/grafana-dashboards:/etc/grafana/provisioning/dashboards
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/node-exporter-full.json
+    networks:
+      - net_grafana
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:3000/api/health
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.54.1
+    volumes:
+      - ../configs/prometheus-config.yaml:/etc/prometheus/prometheus.yaml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    networks:
+      - net_grafana
+      - net_ziti_controller
+      - net_ziti_prometheus
+      - net_agent_controller
+      - net_node_exporter
+    healthcheck:
+      test: wget -q --spider http://localhost:9090/-/healthy
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      grafana:
+        condition: service_healthy
+
+  loki:
+    container_name: loki
+    image: grafana/loki:3.1.1
+    volumes:
+      - ../configs/loki-config.yaml:/etc/loki/local-config.yaml
+      - loki-data:/loki
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - net_grafana
+      - net_promtail
+      - net_ziti_loki
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:3100/ready || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      grafana:
+        condition: service_healthy
+
+  node-exporter:
+    container_name: node-exporter
+    image: prom/node-exporter:v1.8.2
+    volumes:
+      - '/:/host:ro'
+    command:
+      - '--path.rootfs=/host'
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+    networks:
+      - net_node_exporter
+    pid: host
+
+  promtail:
+    container_name: promtail
+    image: grafana/promtail:3.1.1
+    volumes:
+      - ../configs/promtail-config.yaml:/etc/promtail/config.yaml
+      - /var/log:/var/log
+      - /var/lib/docker/containers:/var/lib/docker/containers
+    command: -config.file=/etc/promtail/config.yaml
+    networks:
+      - net_promtail
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:9080/ready || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      loki:
+        condition: service_healthy
+  
+  ziti-tunnel-controller:
+    container_name: ziti-tunnel-controller
+    image: openziti/ziti-tunnel:1.1.12
+    environment:
+      - ZITI_ENROLL_TOKEN=${TUNNELER_JWT}
+      - ZITI_IDENTITY_BASENAME=main-tunneler
+    networks:
+      - net_ziti_prometheus
+    # until dynamical node discovery is implemented, services need to be hard-coded
+    command: >
+      proxy
+        service-node-exporter-1:1001
+        service-node-exporter-2:1002
+        service-node-exporter-3:1003
+        service-node-exporter-4:1004
+        service-node-exporter-5:1005
+        service-node-exporter-6:1006
+        service-node-exporter-7:1007
+        service-node-exporter-8:1008
+        service-node-exporter-9:1009
+        service-node-exporter-10:1010
+        service-node-exporter-11:1011
+        service-node-exporter-12:1012
+        service-node-exporter-13:1013
+        service-node-exporter-14:1014
+        service-node-exporter-15:1015
+        service-node-exporter-16:1016
+        service-node-exporter-17:1017
+        service-node-exporter-18:1018
+        service-node-exporter-19:1019
+        service-node-exporter-20:1020
+        service-node-exporter-21:1021
+        service-node-exporter-22:1022
+        service-node-exporter-23:1023
+        service-node-exporter-24:1024
+        service-node-exporter-25:1025
+        service-node-exporter-26:1026
+        service-node-exporter-27:1027
+        service-node-exporter-28:1028
+        service-node-exporter-29:1029
+        service-node-exporter-30:1030
+        service-node-exporter-31:1031
+        service-node-exporter-32:1032
+        service-node-exporter-33:1033
+        service-node-exporter-34:1034
+        service-node-exporter-35:1035
+        service-node-exporter-36:1036
+        service-node-exporter-37:1037
+        service-node-exporter-38:1038
+        service-node-exporter-39:1039
+        service-node-exporter-40:1040
+        service-node-exporter-41:1041
+        service-node-exporter-42:1042
+        service-node-exporter-43:1043
+        service-node-exporter-44:1044
+        service-node-exporter-45:1045
+        service-node-exporter-46:1046
+        service-node-exporter-47:1047
+        service-node-exporter-48:1048
+        service-node-exporter-49:1049
+        service-node-exporter-50:1050
+        service-node-exporter-51:1051
+        service-node-exporter-52:1052
+        service-node-exporter-53:1053
+        service-node-exporter-54:1054
+        service-node-exporter-55:1055
+        service-node-exporter-56:1056
+        service-node-exporter-57:1057
+        service-node-exporter-58:1058
+        service-node-exporter-59:1059
+        service-node-exporter-60:1060
+        service-node-exporter-61:1061
+        service-node-exporter-62:1062
+        service-node-exporter-63:1063
+        service-node-exporter-64:1064
+        service-node-exporter-65:1065
+        service-node-exporter-66:1066
+        service-node-exporter-67:1067
+        service-node-exporter-68:1068
+        service-node-exporter-69:1069
+        service-node-exporter-70:1070
+        service-node-exporter-71:1071
+        service-node-exporter-72:1072
+        service-node-exporter-73:1073
+        service-node-exporter-74:1074
+        service-node-exporter-75:1075
+        service-node-exporter-76:1076
+        service-node-exporter-77:1077
+        service-node-exporter-78:1078
+        service-node-exporter-79:1079
+        service-node-exporter-80:1080
+        service-node-exporter-81:1081
+        service-node-exporter-82:1082
+        service-node-exporter-83:1083
+        service-node-exporter-84:1084
+        service-node-exporter-85:1085
+        service-node-exporter-86:1086
+        service-node-exporter-87:1087
+        service-node-exporter-88:1088
+        service-node-exporter-89:1089
+        service-node-exporter-90:1090
+        service-node-exporter-91:1091
+        service-node-exporter-92:1092
+        service-node-exporter-93:1093
+        service-node-exporter-94:1094
+        service-node-exporter-95:1095
+        service-node-exporter-96:1096
+        service-node-exporter-97:1097
+        service-node-exporter-98:1098
+        service-node-exporter-99:1099
+    depends_on:
+      ziti-router:
+        condition: service_healthy
+
+  ziti-host:
+    container_name: ziti-host
+    image: openziti/ziti-host:1.1.3
+    environment:
+      - ZITI_ENROLL_TOKEN=${LOKI_JWT}
+    networks:
+      - net_ziti_loki
+    depends_on:
+      ziti-router:
+        condition: service_healthy
+      loki:
+        condition: service_healthy
+
+  dmapz-agent-controller:
+    container_name: dmapz-agent-controller
+    image: dmapz-agent-controller:latest
+    ports:
+      - "6969:6969"
+    volumes:
+      - /tmp/certs:/certs
+    environment:
+      - ENROLLMENT_TOKEN=${AGENT_CONTROLLER_JWT}
+      - API_CREDENTIALS=${AGENT_CONTROLLER_CREDENTIALS}
+    networks:
+      - net_agent_controller
+    depends_on:
+      ziti-router:
+        condition: service_healthy
+      promtail:
+        condition: service_healthy
+
+networks:
+  net_ziti_controller:
+    driver: bridge
+  net_agent_controller:
+    driver: bridge
+  net_grafana:
+    driver: bridge
+  net_promtail:
+    driver: bridge
+  net_ziti_loki:
+    driver: bridge
+  net_ziti_prometheus:
+    driver: bridge
+  net_node_exporter:
+    driver: bridge
+
+volumes:
+  ziti-controller:
+  ziti-setup:
+  edge-router:
+  grafana-data:
+  prometheus-data:
+  loki-data:

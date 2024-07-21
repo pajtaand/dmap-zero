@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "common.proto";
+
+package agent;
+
+option go_package = "github.com/andreepyro/dmap-zero/internal/proto";
+
+service PingService {
+    rpc Ping(google.protobuf.Empty) returns (google.protobuf.Empty) {}
+}
+
+service ConfigurationService {
+    rpc UpdateConfiguration (common.AgentConfiguration) returns (google.protobuf.Empty) {}
+}
+
+service ImageService {
+    rpc CheckImage (common.ImageIdentifier) returns (common.ResourceExistResponse) {}
+    rpc GetImage (common.ImageIdentifier) returns (common.ImageInfo) {}
+    rpc PushImage (stream common.ImageStreamData) returns (google.protobuf.Empty) {}
+    rpc RemoveImage (common.ImageIdentifier) returns (google.protobuf.Empty) {}
+}
+
+service ModuleService {
+    rpc StartModule (common.ModuleConfiguration) returns (google.protobuf.Empty) {}
+    rpc StopModule (common.ModuleIdentifier) returns (google.protobuf.Empty) {}
+}
+
+service ShareService {
+    rpc PushData (ShareData) returns (google.protobuf.Empty) {}
+}
+
+message ShareData {
+    common.ModuleIdentifier receiver = 1;
+    bytes data = 2;
+}
