@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/andreepyro/dmap-zero/internal/agent/manager"
-	pb "github.com/andreepyro/dmap-zero/internal/proto"
+	"github.com/pajtaand/dmap-zero/internal/agent/manager"
+	pb "github.com/pajtaand/dmap-zero/internal/proto"
 	"github.com/rs/zerolog"
 	"google.golang.org/protobuf/types/known/emptypb"
 )

@@ -5,10 +5,10 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/andreepyro/dmap-zero/internal/common/constants"
-	"github.com/andreepyro/dmap-zero/internal/common/wrapper"
-	pb "github.com/andreepyro/dmap-zero/internal/proto"
 	"github.com/openziti/sdk-golang/ziti"
+	"github.com/pajtaand/dmap-zero/internal/common/constants"
+	"github.com/pajtaand/dmap-zero/internal/common/wrapper"
+	pb "github.com/pajtaand/dmap-zero/internal/proto"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"

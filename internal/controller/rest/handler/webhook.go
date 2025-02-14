@@ -3,9 +3,9 @@ package handler
 import (
 	"net/http"
 
-	"github.com/andreepyro/dmap-zero/internal/common/utils"
-	"github.com/andreepyro/dmap-zero/internal/controller/dto"
-	"github.com/andreepyro/dmap-zero/internal/controller/rest/models"
+	"github.com/pajtaand/dmap-zero/internal/common/utils"
+	"github.com/pajtaand/dmap-zero/internal/controller/dto"
+	"github.com/pajtaand/dmap-zero/internal/controller/rest/models"
 	"github.com/rs/zerolog"
 )
 

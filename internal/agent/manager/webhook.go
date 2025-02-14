@@ -9,11 +9,11 @@ import (
 
 	"github.com/rs/zerolog/log"
 
-	"github.com/andreepyro/dmap-zero/internal/agent/dto"
-	"github.com/andreepyro/dmap-zero/internal/agent/rest/models"
-	errs "github.com/andreepyro/dmap-zero/internal/common/errors"
-	"github.com/andreepyro/dmap-zero/internal/common/utils"
 	"github.com/google/uuid"
+	"github.com/pajtaand/dmap-zero/internal/agent/dto"
+	"github.com/pajtaand/dmap-zero/internal/agent/rest/models"
+	errs "github.com/pajtaand/dmap-zero/internal/common/errors"
+	"github.com/pajtaand/dmap-zero/internal/common/utils"
 )
 
 type Webhook struct {

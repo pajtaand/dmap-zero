@@ -7,10 +7,10 @@ import (
 
 	"github.com/rs/zerolog"
 
-	"github.com/andreepyro/dmap-zero/internal/common/constants"
-	"github.com/andreepyro/dmap-zero/internal/common/utils"
-	"github.com/andreepyro/dmap-zero/internal/controller/manager"
-	pb "github.com/andreepyro/dmap-zero/internal/proto"
+	"github.com/pajtaand/dmap-zero/internal/common/constants"
+	"github.com/pajtaand/dmap-zero/internal/common/utils"
+	"github.com/pajtaand/dmap-zero/internal/controller/manager"
+	pb "github.com/pajtaand/dmap-zero/internal/proto"
 	"google.golang.org/grpc/peer"
 	"google.golang.org/protobuf/types/known/emptypb"
 )

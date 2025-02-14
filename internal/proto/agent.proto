@@ -5,7 +5,7 @@ import "common.proto";
 
 package agent;
 
-option go_package = "github.com/andreepyro/dmap-zero/internal/proto";
+option go_package = "github.com/pajtaand/dmap-zero/internal/proto";
 
 service PingService {
     rpc Ping(google.protobuf.Empty) returns (google.protobuf.Empty) {}

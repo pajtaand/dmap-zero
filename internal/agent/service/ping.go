@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/andreepyro/dmap-zero/internal/common/utils"
-	pb "github.com/andreepyro/dmap-zero/internal/proto"
+	"github.com/pajtaand/dmap-zero/internal/common/utils"
+	pb "github.com/pajtaand/dmap-zero/internal/proto"
 	"github.com/rs/zerolog"
 	"google.golang.org/grpc/peer"
 	"google.golang.org/protobuf/types/known/emptypb"

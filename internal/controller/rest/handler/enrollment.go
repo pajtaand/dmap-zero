@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"net/http"
 
-	errs "github.com/andreepyro/dmap-zero/internal/common/errors"
-	"github.com/andreepyro/dmap-zero/internal/common/utils"
-	"github.com/andreepyro/dmap-zero/internal/controller/dto"
-	"github.com/andreepyro/dmap-zero/internal/controller/rest/models"
 	"github.com/go-chi/chi/v5"
+	errs "github.com/pajtaand/dmap-zero/internal/common/errors"
+	"github.com/pajtaand/dmap-zero/internal/common/utils"
+	"github.com/pajtaand/dmap-zero/internal/controller/dto"
+	"github.com/pajtaand/dmap-zero/internal/controller/rest/models"
 	"github.com/rs/zerolog"
 )
 

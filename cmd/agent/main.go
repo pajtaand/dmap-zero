@@ -10,7 +10,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/andreepyro/dmap-zero/internal/agent/app"
+	"github.com/pajtaand/dmap-zero/internal/agent/app"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )

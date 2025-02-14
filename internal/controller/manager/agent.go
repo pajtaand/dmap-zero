@@ -8,12 +8,12 @@ import (
 
 	"github.com/rs/zerolog/log"
 
-	"github.com/andreepyro/dmap-zero/internal/common/constants"
-	errs "github.com/andreepyro/dmap-zero/internal/common/errors"
-	"github.com/andreepyro/dmap-zero/internal/common/wrapper"
-	pb "github.com/andreepyro/dmap-zero/internal/proto"
 	"github.com/google/uuid"
 	"github.com/openziti/sdk-golang/ziti"
+	"github.com/pajtaand/dmap-zero/internal/common/constants"
+	errs "github.com/pajtaand/dmap-zero/internal/common/errors"
+	"github.com/pajtaand/dmap-zero/internal/common/wrapper"
+	pb "github.com/pajtaand/dmap-zero/internal/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )

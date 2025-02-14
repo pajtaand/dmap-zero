@@ -8,10 +8,10 @@ import (
 
 	"github.com/rs/zerolog/log"
 
-	errs "github.com/andreepyro/dmap-zero/internal/common/errors"
-	"github.com/andreepyro/dmap-zero/internal/common/utils"
-	"github.com/andreepyro/dmap-zero/internal/controller/rest/models"
 	"github.com/google/uuid"
+	errs "github.com/pajtaand/dmap-zero/internal/common/errors"
+	"github.com/pajtaand/dmap-zero/internal/common/utils"
+	"github.com/pajtaand/dmap-zero/internal/controller/rest/models"
 )
 
 type Webhook struct {

@@ -3,7 +3,7 @@ package handler
 import (
 	"context"
 
-	"github.com/andreepyro/dmap-zero/internal/controller/dto"
+	"github.com/pajtaand/dmap-zero/internal/controller/dto"
 )
 
 type AgentService interface {

@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/andreepyro/dmap-zero/webapp"
+	"github.com/pajtaand/dmap-zero/webapp"
 )
 
 type webAppHandler struct{}

@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"net/http"
 
-	m "github.com/andreepyro/dmap-zero/internal/common/middleware"
-	"github.com/andreepyro/dmap-zero/internal/controller/rest/handler"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/docgen"
+	m "github.com/pajtaand/dmap-zero/internal/common/middleware"
+	"github.com/pajtaand/dmap-zero/internal/controller/rest/handler"
 	"github.com/rs/zerolog/log"
 )
 

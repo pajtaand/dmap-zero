@@ -4,9 +4,9 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/andreepyro/dmap-zero/internal/agent/dto"
-	"github.com/andreepyro/dmap-zero/internal/agent/rest/models"
-	"github.com/andreepyro/dmap-zero/internal/common/utils"
+	"github.com/pajtaand/dmap-zero/internal/agent/dto"
+	"github.com/pajtaand/dmap-zero/internal/agent/rest/models"
+	"github.com/pajtaand/dmap-zero/internal/common/utils"
 	"github.com/rs/zerolog"
 )
 

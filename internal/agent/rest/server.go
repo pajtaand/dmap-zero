@@ -8,10 +8,10 @@ import (
 
 	"github.com/rs/zerolog/log"
 
-	"github.com/andreepyro/dmap-zero/internal/agent/rest/handler"
-	m "github.com/andreepyro/dmap-zero/internal/common/middleware"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/pajtaand/dmap-zero/internal/agent/rest/handler"
+	m "github.com/pajtaand/dmap-zero/internal/common/middleware"
 )
 
 type RESTServer struct {

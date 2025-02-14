@@ -5,7 +5,7 @@ import (
 
 	"github.com/rs/zerolog/log"
 
-	pb "github.com/andreepyro/dmap-zero/internal/proto"
+	pb "github.com/pajtaand/dmap-zero/internal/proto"
 	"google.golang.org/grpc"
 )
 

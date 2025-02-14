@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package common;
 
-option go_package = "github.com/andreepyro/dmap-zero/internal/proto";
+option go_package = "github.com/pajtaand/dmap-zero/internal/proto";
 
 message AgentConfiguration {
     map<string, string> env = 1;

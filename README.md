@@ -7,7 +7,7 @@
   Distributed Multi-Agent Platform for Zero-Trust Security
 </p>
 <p align="center">
-  <img src="https://github.com/andreepyro/dmap-zero/actions/workflows/go.yml/badge.svg" alt="Build Status">
+  <img src="https://github.com/pajtaand/dmap-zero/actions/workflows/go.yml/badge.svg" alt="Build Status">
   <!-- <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
   </a> -->
@@ -16,7 +16,7 @@
 ## Prerequisites
 
 - Linux OS (developed and tested on Ubuntu 24.04, [install instructions](https://ubuntu.com/tutorials/install-ubuntu-desktop))
-- `Go > 1.23` ([install instructions](https://go.dev/doc/install))
+- `Go > 1.24` ([install instructions](https://go.dev/doc/install))
 - Docker Engine ([install instructions](https://docs.docker.com/engine/install/))
 - OpenZiti CLI ([install instructions](https://openziti.io/docs/downloads/?os=Linux))
 

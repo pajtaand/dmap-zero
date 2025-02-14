@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/andreepyro/dmap-zero/internal/common/utils"
+	"github.com/pajtaand/dmap-zero/internal/common/utils"
 )
 
 type CreateModuleRequest struct {

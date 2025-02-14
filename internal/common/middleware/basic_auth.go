@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/andreepyro/dmap-zero/internal/common/constants"
-	"github.com/andreepyro/dmap-zero/internal/common/utils"
+	"github.com/pajtaand/dmap-zero/internal/common/constants"
+	"github.com/pajtaand/dmap-zero/internal/common/utils"
 	"github.com/rs/zerolog"
 )
 

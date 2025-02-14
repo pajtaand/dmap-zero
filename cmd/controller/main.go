@@ -15,8 +15,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/andreepyro/dmap-zero/internal/common/constants"
-	"github.com/andreepyro/dmap-zero/internal/controller/app"
+	"github.com/pajtaand/dmap-zero/internal/common/constants"
+	"github.com/pajtaand/dmap-zero/internal/controller/app"
 )
 
 const (

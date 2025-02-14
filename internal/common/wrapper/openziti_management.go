@@ -6,7 +6,6 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/andreepyro/dmap-zero/internal/common/constants"
 	"github.com/go-openapi/strfmt"
 	"github.com/openziti/edge-api/rest_management_api_client/edge_router"
 	"github.com/openziti/edge-api/rest_management_api_client/edge_router_policy"
@@ -18,6 +17,7 @@ import (
 	"github.com/openziti/edge-api/rest_model"
 	edge_apis "github.com/openziti/sdk-golang/edge-apis"
 	"github.com/openziti/sdk-golang/ziti"
+	"github.com/pajtaand/dmap-zero/internal/common/constants"
 	"github.com/rs/zerolog/log"
 )
 

@@ -1,6 +1,6 @@
-module github.com/andreepyro/dmap-zero
+module github.com/pajtaand/dmap-zero
 
-go 1.23.4
+go 1.24.0
 
 require (
 	github.com/docker/docker v27.4.1+incompatible

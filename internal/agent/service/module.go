@@ -7,8 +7,8 @@ import (
 
 	"github.com/rs/zerolog"
 
-	"github.com/andreepyro/dmap-zero/internal/agent/manager"
-	pb "github.com/andreepyro/dmap-zero/internal/proto"
+	"github.com/pajtaand/dmap-zero/internal/agent/manager"
+	pb "github.com/pajtaand/dmap-zero/internal/proto"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 

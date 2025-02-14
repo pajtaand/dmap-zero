@@ -5,7 +5,7 @@ import "common.proto";
 
 package controller;
 
-option go_package = "github.com/andreepyro/dmap-zero/internal/proto";
+option go_package = "github.com/pajtaand/dmap-zero/internal/proto";
 
 service SetupService {
     rpc ConfigurationRequest (google.protobuf.Empty) returns (common.AgentConfiguration) {}

@@ -3,8 +3,8 @@ package manager
 import (
 	"sync"
 
-	errs "github.com/andreepyro/dmap-zero/internal/common/errors"
 	"github.com/google/uuid"
+	errs "github.com/pajtaand/dmap-zero/internal/common/errors"
 	"github.com/rs/zerolog/log"
 )
 

@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/andreepyro/dmap-zero/internal/common/constants"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/pajtaand/dmap-zero/internal/common/constants"
 	"github.com/rs/zerolog/log"
 )
 

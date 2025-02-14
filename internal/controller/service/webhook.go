@@ -5,9 +5,9 @@ import (
 	"errors"
 	"fmt"
 
-	errs "github.com/andreepyro/dmap-zero/internal/common/errors"
-	"github.com/andreepyro/dmap-zero/internal/controller/dto"
-	"github.com/andreepyro/dmap-zero/internal/controller/manager"
+	errs "github.com/pajtaand/dmap-zero/internal/common/errors"
+	"github.com/pajtaand/dmap-zero/internal/controller/dto"
+	"github.com/pajtaand/dmap-zero/internal/controller/manager"
 	"github.com/rs/zerolog"
 )
 

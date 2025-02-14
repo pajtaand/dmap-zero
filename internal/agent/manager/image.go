@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/andreepyro/dmap-zero/internal/common/database"
-	errs "github.com/andreepyro/dmap-zero/internal/common/errors"
-	"github.com/andreepyro/dmap-zero/internal/common/wrapper"
 	"github.com/google/uuid"
+	"github.com/pajtaand/dmap-zero/internal/common/database"
+	errs "github.com/pajtaand/dmap-zero/internal/common/errors"
+	"github.com/pajtaand/dmap-zero/internal/common/wrapper"
 	"github.com/rs/zerolog/log"
 )
 

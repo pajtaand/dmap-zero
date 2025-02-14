@@ -7,11 +7,11 @@ import (
 
 	"github.com/rs/zerolog"
 
-	"github.com/andreepyro/dmap-zero/internal/common/wrapper"
-	"github.com/andreepyro/dmap-zero/internal/controller/dto"
-	"github.com/andreepyro/dmap-zero/internal/controller/manager"
-	pb "github.com/andreepyro/dmap-zero/internal/proto"
 	"github.com/openziti/edge-api/rest_model"
+	"github.com/pajtaand/dmap-zero/internal/common/wrapper"
+	"github.com/pajtaand/dmap-zero/internal/controller/dto"
+	"github.com/pajtaand/dmap-zero/internal/controller/manager"
+	pb "github.com/pajtaand/dmap-zero/internal/proto"
 )
 
 type agentService struct {

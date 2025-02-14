@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/andreepyro/dmap-zero/internal/agent/dto"
-	pb "github.com/andreepyro/dmap-zero/internal/proto"
+	"github.com/pajtaand/dmap-zero/internal/agent/dto"
+	pb "github.com/pajtaand/dmap-zero/internal/proto"
 	"github.com/rs/zerolog"
 )
 
