@@ -4,7 +4,7 @@
 
 <h1 align="center">DMap-Zero</h1>
 <p align="center">
-  Distributed Multi-Agent Platform for Zero-Trust Security
+  Distributed Multi-Agent Platform with Zero-Trust Security
 </p>
 <p align="center">
   <img src="https://github.com/pajtaand/dmap-zero/actions/workflows/go.yml/badge.svg" alt="Build Status">
